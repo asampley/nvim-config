@@ -1,14 +1,5 @@
 local function prequire(module)
-	local result = { pcall(require, module) }
-
-	if not result[1] then
-		vim.notify(
-			string.format('Error loading local machine config: %s', result[2]),
-			vim.log.levels.ERR
-		)
-	end
-
-	return unpack(result)
+	return pcall(require, module)
 end
 
 -- default return
