@@ -28,11 +28,18 @@ local l = {
 	}
 }
 
--- attempt to load and merge into defaults
-local status, local_lspconfig = prequire('local/lspconfig')
+for f, t in vim.fs.dir('lua/local/') do
+	if t == 'file' and f ~= 'init.lua' then
+		local name = f:match('(.*).lua')
 
-if status then
-	l.lspconfig = vim.tbl_deep_extend('force', l.lspconfig, local_lspconfig)
+		if name then
+			local status, local_config = prequire('local/' .. name)
+
+			if status then
+				l[name] = vim.tbl_deep_extend('force', l[name], local_config)
+			end
+		end
+	end
 end
 
 -- return local config
