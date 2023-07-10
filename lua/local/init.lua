@@ -28,7 +28,7 @@ local l = {
 	}
 }
 
-for f, t in vim.fs.dir('lua/local/') do
+for f, t in vim.fs.dir(vim.fn.stdpath('config') .. '/lua/local/') do
 	if t == 'file' and f ~= 'init.lua' then
 		local name = f:match('(.*).lua')
 
