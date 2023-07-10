@@ -17,6 +17,8 @@ local function on_attach(client, bufnr)
 	bnmap('<space>ca', vim.lsp.buf.code_action)
 	bnmap('gr', vim.lsp.buf.references)
 	bnmap('<space>f', vim.lsp.buf.format)
+
+	client.server_capabilities.semanticTokensProvider = nil
 end
 
 return {
