@@ -45,9 +45,17 @@ return {
 	{
 		'nvim-telescope/telescope.nvim',
 		tag = '0.1.2',
-		dependecies = { 'nvim-lua/plenary.nvim' },
-		config = function()
+		dependecies = {
+			'nvim-lua/plenary.nvim',
+			'nvim-telescope/telescope-ui-select.nvim'
+		},
+		config = function(_, opts)
+			local telescope = require('telescope')
+			telescope.setup(opts)
+			telescope.load_extension('ui-select')
+
 			local builtin = require('telescope.builtin')
+
 			nmap('<leader>ff', builtin.find_files)
 			nmap('<leader>fw', builtin.grep_string)
 			nmap('<leader>fb', builtin.buffers)
@@ -63,6 +71,7 @@ return {
 	},
 
 	{ 'nvim-lua/plenary.nvim' },
+	{ 'nvim-telescope/telescope-ui-select.nvim' },
 
 	-- preview markdown as you write using :MarkdownPreview
 	{
