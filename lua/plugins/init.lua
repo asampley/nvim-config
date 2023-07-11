@@ -22,7 +22,7 @@ local function on_attach(client, bufnr)
 	bnmap('<leader>D', vim.lsp.buf.type_definition)
 	bnmap('<leader>rn', vim.lsp.buf.rename)
 	bnmap('<leader>ca', vim.lsp.buf.code_action)
-	bnmap('<leader>f', vim.lsp.buf.format)
+	bnmap('<leader>fo', vim.lsp.buf.format)
 
 	client.server_capabilities.semanticTokensProvider = nil
 end
@@ -57,12 +57,13 @@ return {
 
 			local builtin = require('telescope.builtin')
 
-			nmap('<leader>sf', builtin.find_files)
-			nmap('<leader>sw', builtin.grep_string)
-			nmap('<leader>sb', builtin.buffers)
-			nmap('<leader>sh', builtin.help_tags)
+			nmap('<leader>ff', builtin.find_files)
+			nmap('<leader>fw', builtin.grep_string)
+			nmap('<leader>fs', builtin.live_grep)
+			nmap('<leader>fb', builtin.buffers)
+			nmap('<leader>fh', builtin.help_tags)
 
-			nmap('<leader>sr', builtin.registers)
+			nmap('<leader>fr', builtin.registers)
 			nmap('<leader>e', builtin.diagnostics)
 		end,
 	},
