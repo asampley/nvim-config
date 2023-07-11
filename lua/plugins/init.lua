@@ -14,6 +14,7 @@ local function on_attach(client, bufnr)
 	bnmap('gd', builtin.lsp_definitions)
 	bnmap('K', vim.lsp.buf.hover)
 	bnmap('gi', builtin.lsp_implementations)
+	bnmap('gr', builtin.lsp_references)
 	bnmap('<leader>h', vim.lsp.buf.signature_help)
 	bnmap('<leader>wa', vim.lsp.buf.add_workspace_folder)
 	bnmap('<leader>wr', vim.lsp.buf.remove_workspace_folder)
@@ -21,7 +22,7 @@ local function on_attach(client, bufnr)
 	bnmap('<leader>D', vim.lsp.buf.type_definition)
 	bnmap('<leader>rn', vim.lsp.buf.rename)
 	bnmap('<leader>ca', vim.lsp.buf.code_action)
-	bnmap('<leader>fo', vim.lsp.buf.format)
+	bnmap('<leader>f', vim.lsp.buf.format)
 
 	client.server_capabilities.semanticTokensProvider = nil
 end
@@ -56,16 +57,12 @@ return {
 
 			local builtin = require('telescope.builtin')
 
-			nmap('<leader>ff', builtin.find_files)
-			nmap('<leader>fw', builtin.grep_string)
-			nmap('<leader>fb', builtin.buffers)
-			nmap('<leader>fh', builtin.help_tags)
+			nmap('<leader>sf', builtin.find_files)
+			nmap('<leader>sw', builtin.grep_string)
+			nmap('<leader>sb', builtin.buffers)
+			nmap('<leader>sh', builtin.help_tags)
 
-			nmap('<leader>fr', builtin.lsp_references)
-			nmap('<leader>fi', builtin.lsp_implementations)
-			nmap('<leader>fd', builtin.lsp_definitions)
-
-			nmap('<leader>r', builtin.registers)
+			nmap('<leader>sr', builtin.registers)
 			nmap('<leader>e', builtin.diagnostics)
 		end,
 	},
