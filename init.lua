@@ -17,9 +17,7 @@ vim.opt.list = true
 vim.g.mapleader = ' '
 
 -- allow terminal mode to be left with double escape
-vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { silent = true })
--- open diagnostic list used by lsp
---vim.keymap.set('n', '<leader>e', vim.diagnostic.setloclist, { silent = true })
+require('local-util').remap('t', '<Esc><Esc>', '<C-\\><C-n>', 'Go to normal mode from terminal')
 
 -- Set completeopt to have a better completion experience
 vim.opt.completeopt = { 'menuone', 'noinsert', 'noselect' }

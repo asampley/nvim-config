@@ -1,28 +1,25 @@
-local function bnmap(lhs, rhs)
-	vim.keymap.set('n', lhs, rhs, { silent = true, buffer = true })
-end
-
-local function nmap(lhs, rhs)
-	vim.keymap.set('n', lhs, rhs, { silent = true })
-end
+local u = require('local-util')
 
 local function on_attach(client, bufnr)
 	local builtin = require('telescope.builtin')
 
 	-- LSP keybindings
-	bnmap('gD', vim.lsp.buf.declaration)
-	bnmap('gd', builtin.lsp_definitions)
-	bnmap('K', vim.lsp.buf.hover)
-	bnmap('gi', builtin.lsp_implementations)
-	bnmap('gr', builtin.lsp_references)
-	bnmap('<leader>h', vim.lsp.buf.signature_help)
-	bnmap('<leader>wa', vim.lsp.buf.add_workspace_folder)
-	bnmap('<leader>wr', vim.lsp.buf.remove_workspace_folder)
-	bnmap('<leader>wl', function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end)
-	bnmap('<leader>D', vim.lsp.buf.type_definition)
-	bnmap('<leader>rn', vim.lsp.buf.rename)
-	bnmap('<leader>ca', vim.lsp.buf.code_action)
-	bnmap('<leader>fo', vim.lsp.buf.format)
+	u.map('n', 'gD', vim.lsp.buf.declaration, 'LSP - [g]oto [D]eclaration')
+	u.map('n', 'gd', builtin.lsp_definitions, 'LSP - [g]oto [d]efinition')
+	u.map('n', 'K', vim.lsp.buf.hover, 'LSP - hover')
+	u.map('n', 'gi', builtin.lsp_implementations, 'LSP - [g]oto [i]mplemnation')
+	u.map('n', 'gr', builtin.lsp_references, 'LSP - [g]oto [r]eference')
+	u.map('n', '<leader>h', vim.lsp.buf.signature_help, 'LSP - show [h]elp')
+	u.map('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, 'LSP - [w]orkspace [a]dd folder')
+	u.map('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder, 'LSP - [w]orkspace [r]emove folder')
+	u.map('n', '<leader>wl', function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, 'LSP - [w]orkspace [l]ist folders')
+	u.map('n', '<leader>ws', builtin.lsp_workspace_symbols, 'LSP - [w]orkspace [l]ist folders')
+	u.map('n', '<leader>td', vim.lsp.buf.type_definition, 'LSP - goto [t]ype [d]efinition')
+	u.map('n', '<leader>rn', vim.lsp.buf.rename, 'LSP - [r]e[n]ame')
+	u.map('n', '<leader>ca', vim.lsp.buf.code_action, 'LSP - [c]ode [a]ction')
+	u.map('n', '<leader>fo', vim.lsp.buf.format, 'LSP - [fo]rmat')
+	u.map('n', ']d', vim.diagnostic.goto_next, 'goto next diagnostic')
+	u.map('n', '[d', vim.diagnostic.goto_prev, 'goto prev diagnostic')
 
 	client.server_capabilities.semanticTokensProvider = nil
 end
@@ -50,6 +47,13 @@ return {
 			'nvim-lua/plenary.nvim',
 			'nvim-telescope/telescope-ui-select.nvim'
 		},
+		opts = {
+			defaults = {
+				cache_picker = {
+					num_pickers = 20,
+				}
+			},
+		},
 		config = function(_, opts)
 			local telescope = require('telescope')
 			telescope.setup(opts)
@@ -57,14 +61,16 @@ return {
 
 			local builtin = require('telescope.builtin')
 
-			nmap('<leader>ff', builtin.find_files)
-			nmap('<leader>fw', builtin.grep_string)
-			nmap('<leader>fs', builtin.live_grep)
-			nmap('<leader>fb', builtin.buffers)
-			nmap('<leader>fh', builtin.help_tags)
+			u.map('n', '<leader>ff', builtin.find_files, 'telescope - [f]ind [f]ile')
+			u.map('n', '<leader>fw', builtin.grep_string, 'telescope - [f]ind [w]ord')
+			u.map('n', '<leader>fs', builtin.live_grep, 'telescope - [f]ind [s]tring')
+			u.map('n', '<leader>fb', builtin.buffers, 'telescope - [f]ind [b]uffer')
+			u.map('n', '<leader>fh', builtin.help_tags, 'telescope - [f]ind [h]elp tag')
+			u.map('n', '<leader>fk', builtin.keymaps, 'telescope - [f]ind [k]eymap')
+			u.map('n', '<leader>qf', builtin.pickers, 'telescope - pickers history')
 
-			nmap('<leader>fr', builtin.registers)
-			nmap('<leader>e', builtin.diagnostics)
+			u.map('n', '<leader>fr', builtin.registers, 'telescope - [f]ind [r]egister')
+			u.map('n', '<leader>e', builtin.diagnostics, 'telescope - [e]rrors')
 		end,
 	},
 

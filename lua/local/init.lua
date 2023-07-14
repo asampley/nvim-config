@@ -1,13 +1,12 @@
-local function prequire(module)
-	return pcall(require, module)
-end
-
 -- default return
 local l = {
 	lspconfig = {
 		settings = {
 			lua_ls = {
 				Lua = {
+					runtime = {
+						version = 'LuaJIT'
+					},
 					diagnostics = {
 						-- mark vim as a global for nvim config scripts to not warn
 						globals = { 'vim' },
@@ -28,19 +27,7 @@ local l = {
 	}
 }
 
-for f, t in vim.fs.dir(vim.fn.stdpath('config') .. '/lua/local/') do
-	if t == 'file' and f ~= 'init.lua' then
-		local name = f:match('(.*).lua')
-
-		if name then
-			local status, local_config = prequire('local/' .. name)
-
-			if status then
-				l[name] = vim.tbl_deep_extend('force', l[name], local_config)
-			end
-		end
-	end
-end
+l = vim.tbl_deep_extend('force', l, require('local-util').deep_require('local', true))
 
 -- return local config
 return l
