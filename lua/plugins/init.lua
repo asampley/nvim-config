@@ -10,16 +10,14 @@ local function on_attach(client, bufnr)
 	u.map('n', 'gi', builtin.lsp_implementations, 'LSP - [g]oto [i]mplemnation')
 	u.map('n', 'gr', builtin.lsp_references, 'LSP - [g]oto [r]eference')
 	u.map('n', '<leader>h', vim.lsp.buf.signature_help, 'LSP - show [h]elp')
-	u.map('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, 'LSP - [w]orkspace [a]dd folder')
-	u.map('n', '<leader>wr', vim.lsp.buf.remove_workspace_folder, 'LSP - [w]orkspace [r]emove folder')
-	u.map('n', '<leader>wl', function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, 'LSP - [w]orkspace [l]ist folders')
-	u.map('n', '<leader>ws', builtin.lsp_workspace_symbols, 'LSP - [w]orkspace [l]ist folders')
+	u.map('n', '<leader>lwa', vim.lsp.buf.add_workspace_folder, 'LSP - [l]sp [w]orkspace [a]dd folder')
+	u.map('n', '<leader>lwr', vim.lsp.buf.remove_workspace_folder, 'LSP - [l]sp [w]orkspace [r]emove folder')
+	u.map('n', '<leader>lwl', function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, 'LSP - [l]sp [w]orkspace [l]ist folders')
+	u.map('n', '<leader>lws', builtin.lsp_workspace_symbols, 'LSP - [l]sp [w]orkspace [s]ymbols')
 	u.map('n', '<leader>td', vim.lsp.buf.type_definition, 'LSP - goto [t]ype [d]efinition')
 	u.map('n', '<leader>rn', vim.lsp.buf.rename, 'LSP - [r]e[n]ame')
 	u.map('n', '<leader>ca', vim.lsp.buf.code_action, 'LSP - [c]ode [a]ction')
 	u.map('n', '<leader>fo', vim.lsp.buf.format, 'LSP - [fo]rmat')
-	u.map('n', ']d', vim.diagnostic.goto_next, 'goto next diagnostic')
-	u.map('n', '[d', vim.diagnostic.goto_prev, 'goto prev diagnostic')
 
 	client.server_capabilities.semanticTokensProvider = nil
 end
@@ -68,9 +66,10 @@ return {
 			u.map('n', '<leader>fh', builtin.help_tags, 'telescope - [f]ind [h]elp tag')
 			u.map('n', '<leader>fk', builtin.keymaps, 'telescope - [f]ind [k]eymap')
 			u.map('n', '<leader>qf', builtin.pickers, 'telescope - pickers history')
+			u.map('n', '<leader>@f', builtin.resume, 'telescope -resume')
 
 			u.map('n', '<leader>fr', builtin.registers, 'telescope - [f]ind [r]egister')
-			u.map('n', '<leader>e', builtin.diagnostics, 'telescope - [e]rrors')
+			u.map('n', '<leader>fe', builtin.diagnostics, 'telescope - [f]ind [e]rrors')
 		end,
 	},
 

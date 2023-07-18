@@ -14,10 +14,27 @@ vim.opt.list = true
 
 -- global keymappings
 -- ==================
+local u = require('local-util')
+
+-- leader
 vim.g.mapleader = ' '
 
+-- make leader on its own no longer function in normal, visual, and select
+u.map('', vim.g.mapleader, '<nop>')
 -- allow terminal mode to be left with double escape
-require('local-util').remap('t', '<Esc><Esc>', '<C-\\><C-n>', 'Go to normal mode from terminal')
+u.remap('t', '<Esc><Esc>', '<C-\\><C-n>', 'Go to normal mode from terminal')
+
+u.map('', ']e', u.count(vim.diagnostic.goto_next), 'goto next diagnostic')
+u.map('', '[e', u.count(vim.diagnostic.goto_prev), 'goto prev diagnostic')
+u.map('', ']q', u.cmd.silentcount('cnext'), 'goto next [q]uickfix list')
+u.map('', '[q', u.cmd.silentcount('cprev'), 'goto prev [q]uickfix list')
+u.map('', ']l', u.cmd.silentcount('lnext'), 'goto next [l]ocation list')
+u.map('', '[l', u.cmd.silentcount('lprev'), 'goto prev [l]ocation list')
+
+u.remap('', '<leader>w', u.expr.count1('<c-w>'), '<c-w> - window action prefix', { expr = true })
+
+u.map('n', '<leader>e', vim.diagnostic.setqflist, 'set quickfix list to diagnostics')
+u.map('n', '<leader>E', vim.diagnostic.setloclist, 'set location list to diagnostics')
 
 -- Set completeopt to have a better completion experience
 vim.opt.completeopt = { 'menuone', 'noinsert', 'noselect' }
