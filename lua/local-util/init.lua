@@ -44,22 +44,10 @@ return {
 		end
 	end,
 
-	expr = {
-		-- create function to return an expression with count1 prefixing it
-		count1 = function(expr)
-			return function()
-				return vim.v.count1 .. expr
-			end
-		end,
-	},
-
-	cmd = {
-		-- create function to run cmd command with silent! and count in front of it
-		silentcount = function(cmd)
-			return function()
-				return vim.cmd('silent! ' .. vim.v.count .. cmd)
-			end
+	-- wrap a function around vim.cmd with count passed through by default
+	cmd = function (c, opt)
+		return function()
+			vim.cmd[c](vim.tbl_extend('force', { count = vim.v.count }, opt or {}))
 		end
-	},
-
+	end,
 }

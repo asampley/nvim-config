@@ -19,22 +19,31 @@ local u = require('local-util')
 -- leader
 vim.g.mapleader = ' '
 
+-- normal, visual, and operator mode set
+local nxo = { 'n', 'x', 'o' }
+-- normal and visual mode set
+local nx = { 'n', 'x' }
+
 -- make leader on its own no longer function in normal, visual, and select
-u.map('', vim.g.mapleader, '<nop>')
+u.map(nxo, vim.g.mapleader, '<nop>')
 -- allow terminal mode to be left with double escape
 u.remap('t', '<Esc><Esc>', '<C-\\><C-n>', 'Go to normal mode from terminal')
 
-u.map('', ']e', u.count(vim.diagnostic.goto_next), 'goto next diagnostic')
-u.map('', '[e', u.count(vim.diagnostic.goto_prev), 'goto prev diagnostic')
-u.map('', ']q', u.cmd.silentcount('cnext'), 'goto next [q]uickfix list')
-u.map('', '[q', u.cmd.silentcount('cprev'), 'goto prev [q]uickfix list')
-u.map('', ']l', u.cmd.silentcount('lnext'), 'goto next [l]ocation list')
-u.map('', '[l', u.cmd.silentcount('lprev'), 'goto prev [l]ocation list')
+local esilent = { mods = { emsg_silent = true } }
 
-u.remap('', '<leader>w', u.expr.count1('<c-w>'), '<c-w> - window action prefix', { expr = true })
+u.map(nxo, ']e', u.count(vim.diagnostic.goto_next), 'goto [count] next diagnostic')
+u.map(nxo, '[e', u.count(vim.diagnostic.goto_prev), 'goto [count] prev diagnostic')
+u.map(nxo, ']q', u.cmd('cnext', esilent), 'goto [count] next [q]uickfix list')
+u.map(nxo, '[q', u.cmd('cprev', esilent), 'goto [count] prev [q]uickfix list')
+u.map(nxo, ']l', u.cmd('lnext', esilent), 'goto [count] next [l]ocation list')
+u.map(nxo, '[l', u.cmd('lprev', esilent), 'goto [count] prev [l]ocation list')
+u.map(nxo, ']b', u.cmd('bnext'), 'goto [count] next [b]uffer')
+u.map(nxo, '[b', u.cmd('bprev'), 'goto [count] prev [b]uffer')
 
-u.map('n', '<leader>e', vim.diagnostic.setqflist, 'set quickfix list to diagnostics')
-u.map('n', '<leader>E', vim.diagnostic.setloclist, 'set location list to diagnostics')
+u.remap(nx, '<leader>w', '<c-w>', '<c-w> - window action prefix')
+
+u.map(nx, '<leader>e', vim.diagnostic.setqflist, 'set quickfix list to diagnostics')
+u.map(nx, '<leader>E', vim.diagnostic.setloclist, 'set location list to diagnostics')
 
 -- Set completeopt to have a better completion experience
 vim.opt.completeopt = { 'menuone', 'noinsert', 'noselect' }
