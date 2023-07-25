@@ -17,7 +17,9 @@ local function on_attach(client, bufnr)
 	u.map('n', '<leader>td', vim.lsp.buf.type_definition, 'LSP - goto [t]ype [d]efinition')
 	u.map('n', '<leader>rn', vim.lsp.buf.rename, 'LSP - [r]e[n]ame')
 	u.map('n', '<leader>ca', vim.lsp.buf.code_action, 'LSP - [c]ode [a]ction')
-	u.map('n', '<leader>fo', vim.lsp.buf.format, 'LSP - [fo]rmat')
+	u.map('n', '<leader>gq', vim.lsp.buf.format, 'LSP - format')
+
+	vim.bo.formatexpr = 'v:lua.vim.lsp.formatexpr()'
 
 	client.server_capabilities.semanticTokensProvider = nil
 end

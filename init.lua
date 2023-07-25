@@ -12,6 +12,8 @@ vim.opt.expandtab = false
 vim.opt.listchars = { tab = '|·', trail = '~', nbsp = '+' }
 vim.opt.list = true
 
+vim.opt.timeout = false
+
 -- global keymappings
 -- ==================
 local u = require('local-util')
