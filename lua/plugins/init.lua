@@ -1,29 +1,5 @@
 local u = require('local-util')
 
-local function on_attach(client, bufnr)
-	local builtin = require('telescope.builtin')
-
-	-- LSP keybindings
-	u.map('n', 'gD', vim.lsp.buf.declaration, 'LSP - [g]oto [D]eclaration')
-	u.map('n', 'gd', builtin.lsp_definitions, 'LSP - [g]oto [d]efinition')
-	u.map('n', 'K', vim.lsp.buf.hover, 'LSP - hover')
-	u.map('n', 'gi', builtin.lsp_implementations, 'LSP - [g]oto [i]mplemnation')
-	u.map('n', 'gr', builtin.lsp_references, 'LSP - [g]oto [r]eference')
-	u.map('n', '<leader>h', vim.lsp.buf.signature_help, 'LSP - show [h]elp')
-	u.map('n', '<leader>lwa', vim.lsp.buf.add_workspace_folder, 'LSP - [l]sp [w]orkspace [a]dd folder')
-	u.map('n', '<leader>lwr', vim.lsp.buf.remove_workspace_folder, 'LSP - [l]sp [w]orkspace [r]emove folder')
-	u.map('n', '<leader>lwl', function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, 'LSP - [l]sp [w]orkspace [l]ist folders')
-	u.map('n', '<leader>lws', builtin.lsp_workspace_symbols, 'LSP - [l]sp [w]orkspace [s]ymbols')
-	u.map('n', '<leader>td', vim.lsp.buf.type_definition, 'LSP - goto [t]ype [d]efinition')
-	u.map('n', '<leader>rn', vim.lsp.buf.rename, 'LSP - [r]e[n]ame')
-	u.map('n', '<leader>ca', vim.lsp.buf.code_action, 'LSP - [c]ode [a]ction')
-	u.map('n', '<leader>gq', vim.lsp.buf.format, 'LSP - format')
-
-	vim.bo.formatexpr = 'v:lua.vim.lsp.formatexpr()'
-
-	client.server_capabilities.semanticTokensProvider = nil
-end
-
 return {
 	-- parse and adjust settings for formatting from .editorconfig file
 	{ 'editorconfig/editorconfig-vim' },
@@ -37,6 +13,21 @@ return {
 				base2 = '#1c1e21',
 			},
 		}
+	},
+
+	-- treesitter management
+	{
+		'nvim-treesitter/nvim-treesitter',
+		build = function()
+			require('nvim-treesitter.install').update({ with_sync = true })()
+		end,
+		config = function(_, _)
+			require('nvim-treesitter.configs').setup {
+				highlight = {
+					enable = true,
+				},
+			}
+		end,
 	},
 
 	-- fuzzy find files and more with telescope
@@ -107,7 +98,7 @@ return {
 			require('mason-lspconfig').setup_handlers({
 				function(server_name)
 					require('lspconfig')[server_name].setup({
-						on_attach = on_attach,
+						on_attach = require('local-util').on_attach,
 						capabilities = require('cmp_nvim_lsp').default_capabilities(),
 						settings = require('local').lspconfig.settings[server_name],
 					})
