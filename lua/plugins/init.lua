@@ -8,11 +8,17 @@ return {
 	{
 		'tanvirtin/monokai.nvim',
 		lazy = false,
-		opts = {
-			palette = {
-				base2 = '#1c1e21',
-			},
-		}
+		config = function(_, _)
+			local monokai = require('monokai')
+
+			-- half bright backgrounds
+			monokai.classic.base2 = '#1c1e21'
+			monokai.pro.base2 = '#1c1e21'
+			monokai.soda.base2 = '#1c1e21'
+			monokai.ristretto.base2 = '#161212'
+
+			monokai.setup { palette = monokai.classic }
+		end
 	},
 
 	-- treesitter management
