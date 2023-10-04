@@ -2,12 +2,60 @@ local u = require('local-util')
 
 return {
 	-- parse and adjust settings for formatting from .editorconfig file
-	{ 'editorconfig/editorconfig-vim' },
+	{ 'editorconfig/editorconfig-vim', lazy = false },
 
-	-- colorscheme
+	-- colorschemes
+	--{ 'RRethy/nvim-base16', lazy = true },
+	{ 'tiagovla/tokyodark.nvim', lazy = true },
+	{ 'nyoom-engineering/oxocarbon.nvim', lazy = true },
+	{ 'dracula/vim', lazy = true },
+	{
+		'maxmx03/fluoromachine.nvim',
+		lazy = true,
+		opts = {
+			glow = false,
+			theme = 'fluoromachine',
+			--theme = 'retrowave',
+			--theme = 'delta',
+			overrides = function(c, _, _, blend)
+				return {
+					Whitespace = { fg = blend(c.comment, c.bg, 0.4) },
+					Search = { fg = c.bg, bg = c.purple },
+					IncSearch = { link = 'Search' },
+					DiagnosticUnderlineOk = { undercurl = true },
+					DiagnosticUnderlineHint = { undercurl = true },
+					DiagnosticUnderlineInfo = { undercurl = true },
+					DiagnosticUnderlineWarn = { undercurl = true },
+					DiagnosticUnderlineError = { undercurl = true },
+					DiagnosticUnnecessary = { undercurl = true },
+				}
+			end,
+		},
+	},
+	{
+		'rafamadriz/neon',
+		lazy = true,
+		config = function()
+			vim.g.neon_style = 'dark'
+		end
+	},
+	{
+		'marko-cerovac/material.nvim',
+		lazy = true,
+		opts = {
+			high_visibility = { darker = true }
+		},
+		config = function(_, opts)
+			local material = require('material')
+
+			vim.g.material_style = 'deep ocean'
+
+			material.setup(opts)
+		end,
+	},
 	{
 		'tanvirtin/monokai.nvim',
-		lazy = false,
+		lazy = true,
 		config = function(_, _)
 			local monokai = require('monokai')
 
@@ -19,6 +67,17 @@ return {
 
 			monokai.setup { palette = monokai.classic }
 		end
+	},
+	{
+		'sainnhe/sonokai',
+		lazy = true,
+		opts = {
+			style = 'maia',
+		},
+		config = function(_, opts)
+			vim.g.sonokai_style = opts.style
+			vim.g.sonokai_better_performance = 1
+		end,
 	},
 
 	-- treesitter management

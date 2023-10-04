@@ -76,5 +76,13 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+-- enable colors if it is allowed
+if vim.fn.has('termguicolors') then
+	vim.opt.termguicolors = true
+end
+
 -- startup plugins
 require('lazy').setup(require('plugins'))
+
+-- set colorscheme after plugins are loaded
+vim.cmd('colorscheme fluoromachine')
