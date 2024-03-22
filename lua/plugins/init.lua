@@ -128,6 +128,16 @@ return {
 
 			u.map('n', '<leader>fr', builtin.registers, 'telescope - [f]ind [r]egister')
 			u.map('n', '<leader>fe', builtin.diagnostics, 'telescope - [f]ind [e]rrors')
+
+			vim.api.nvim_create_autocmd('LspAttach', {
+				callback = function(args)
+					u.map('n', 'gi', builtin.lsp_implementations, 'LSP - [g]oto [i]mplemnation', { buffer = args.buf })
+					u.map('n', 'gr', builtin.lsp_references, 'LSP - [g]oto [r]eference', { buffer = args.buf })
+					u.map('n', 'gd', builtin.lsp_definitions, 'LSP - [g]oto [d]efinition', { buffer = args.buf })
+					u.map('n', '<leader>lws', builtin.lsp_workspace_symbols, 'LSP - [l]sp [w]orkspace [s]ymbols', { buffer = args.buf })
+				end
+
+			})
 		end,
 	},
 
@@ -163,7 +173,6 @@ return {
 			require('mason-lspconfig').setup_handlers({
 				function(server_name)
 					require('lspconfig')[server_name].setup({
-						on_attach = require('local-util').on_attach,
 						capabilities = require('cmp_nvim_lsp').default_capabilities(),
 						settings = require('local').lspconfig.settings[server_name],
 					})

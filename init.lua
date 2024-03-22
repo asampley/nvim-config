@@ -55,6 +55,26 @@ u.map(nxo, '[b', u.cmd('bprev'), 'goto [count] prev [b]uffer')
 
 u.remap(nx, '<leader>w', '<c-w>', '<c-w> - window action prefix')
 
+vim.api.nvim_create_autocmd('LspAttach', {
+	callback = function(args)
+		local client = vim.lsp.get_client_by_id(args.data.client_id)
+
+		-- LSP keybindings
+		u.map('n', 'gD', vim.lsp.buf.declaration, 'LSP - [g]oto [D]eclaration', { buffer = args.buf })
+		u.map('n', 'K', vim.lsp.buf.hover, 'LSP - hover', { buffer = args.buf })
+		u.map('n', '<leader>h', vim.lsp.buf.signature_help, 'LSP - show [h]elp', { buffer = args.buf })
+		u.map('n', '<leader>lwa', vim.lsp.buf.add_workspace_folder, 'LSP - [l]sp [w]orkspace [a]dd folder', { buffer = args.buf })
+		u.map('n', '<leader>lwr', vim.lsp.buf.remove_workspace_folder, 'LSP - [l]sp [w]orkspace [r]emove folder', { buffer = args.buf })
+		u.map('n', '<leader>lwl', function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end, 'LSP - [l]sp [w]orkspace [l]ist folders', { buffer = args.buf })
+		u.map('n', '<leader>td', vim.lsp.buf.type_definition, 'LSP - goto [t]ype [d]efinition', { buffer = args.buf })
+		u.map('n', '<leader>rn', vim.lsp.buf.rename, 'LSP - [r]e[n]ame', { buffer = args.buf })
+		u.map('n', '<leader>ca', vim.lsp.buf.code_action, 'LSP - [c]ode [a]ction', { buffer = args.buf })
+		u.map('n', '<leader>gq', vim.lsp.buf.format, 'LSP - format', { buffer = args.buf })
+
+		client.server_capabilities.semanticTokensProvider = nil
+	end
+})
+
 -- Set completeopt to have a better completion experience
 vim.opt.completeopt = { 'menuone', 'noinsert', 'noselect' }
 
