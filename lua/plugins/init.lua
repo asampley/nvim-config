@@ -17,9 +17,9 @@ return {
 			theme = 'fluoromachine',
 			--theme = 'retrowave',
 			--theme = 'delta',
-			overrides = function(c, _, _, blend)
+			overrides = function(c, color)
 				return {
-					Whitespace = { fg = blend(c.comment, c.bg, 0.4) },
+					Whitespace = { fg = color.blend(c.comment, c.bg, 0.4) },
 					Search = { fg = c.bg, bg = c.purple },
 					IncSearch = { link = 'Search' },
 					DiagnosticUnderlineOk = { undercurl = true },
