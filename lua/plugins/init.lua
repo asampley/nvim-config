@@ -192,7 +192,7 @@ return {
 
 			local if_vis_do = function(f)
 				return function(fallback)
-					return cmp.visible() and f() or fallback()
+					if cmp.visible() then return f() else fallback() end
 				end
 			end
 
