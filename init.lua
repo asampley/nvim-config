@@ -53,8 +53,8 @@ u.map(nxo, '[l', u.cmd('lprev', esilent), 'goto [count] prev entry in the [l]oca
 u.map(nxo, ']b', u.cmd('bnext'), 'goto [count] next [b]uffer')
 u.map(nxo, '[b', u.cmd('bprev'), 'goto [count] prev [b]uffer')
 
-u.remap('i', '<c-j>', function() return vim.fn.pumvisible() == 1 and '<c-n>' or '<c-j>' end, { expr = true })
-u.remap('i', '<c-k>', function() return vim.fn.pumvisible() == 1 and '<c-p>' or '<c-k>' end, { expr = true })
+u.remap('i', '<c-j>', function() return vim.fn.pumvisible() == 1 and '<c-n>' or '<c-j>' end, 'move down popup menu', { expr = true })
+u.remap('i', '<c-k>', function() return vim.fn.pumvisible() == 1 and '<c-p>' or '<c-k>' end, 'move up popup menu', { expr = true })
 
 u.remap(nx, '<leader>w', '<c-w>', '<c-w> - window action prefix')
 
