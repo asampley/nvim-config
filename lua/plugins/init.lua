@@ -19,9 +19,6 @@ return {
 			--theme = 'delta',
 			overrides = function(c, color)
 				return {
-					Whitespace = { fg = color.blend(c.comment, c.bg, 0.4) },
-					Search = { fg = c.bg, bg = c.purple },
-					IncSearch = { link = 'Search' },
 					DiagnosticUnderlineOk = { undercurl = true },
 					DiagnosticUnderlineHint = { undercurl = true },
 					DiagnosticUnderlineInfo = { undercurl = true },
@@ -151,13 +148,7 @@ return {
 		ft = 'markdown',
 	},
 
-	{
-		'neovim/nvim-lspconfig',
-		dependencies = {
-			-- only depends on this for lsp completion in config function
-			'hrsh7th/cmp-nvim-lsp',
-		},
-	},
+	{ 'neovim/nvim-lspconfig' },
 
 	-- installer and bridge for lsps and lspconfig
 	{ 'williamboman/mason.nvim', config = true },
@@ -201,7 +192,7 @@ return {
 
 			local if_vis_do = function(f)
 				return function(fallback)
-					if cmp.visible() then return f() else return fallback() end
+					return cmp.visible() and f() or fallback()
 				end
 			end
 
@@ -257,7 +248,14 @@ return {
 				sources = cmp.config.sources({
 					{ name = 'path' },
 				}, {
-					{ name = 'cmdline' },
+					{
+						name = 'cmdline',
+						trigger_characters = {},
+						keyword_pattern = [==[\(^[^![:blank:]]*\|[^![:blank:]]\{1,}\)]==],
+						option = {
+							ignore_cmds = {},
+						}
+					}
 				})
 			})
 

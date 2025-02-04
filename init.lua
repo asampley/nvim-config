@@ -53,6 +53,9 @@ u.map(nxo, '[l', u.cmd('lprev', esilent), 'goto [count] prev entry in the [l]oca
 u.map(nxo, ']b', u.cmd('bnext'), 'goto [count] next [b]uffer')
 u.map(nxo, '[b', u.cmd('bprev'), 'goto [count] prev [b]uffer')
 
+u.remap('i', '<c-j>', function() return vim.fn.pumvisible() == 1 and '<c-n>' or '<c-j>' end, { expr = true })
+u.remap('i', '<c-k>', function() return vim.fn.pumvisible() == 1 and '<c-p>' or '<c-k>' end, { expr = true })
+
 u.remap(nx, '<leader>w', '<c-w>', '<c-w> - window action prefix')
 
 vim.api.nvim_create_autocmd('LspAttach', {
@@ -69,7 +72,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
 		u.map('n', '<leader>td', vim.lsp.buf.type_definition, 'LSP - goto [t]ype [d]efinition', { buffer = args.buf })
 		u.map('n', '<leader>rn', vim.lsp.buf.rename, 'LSP - [r]e[n]ame', { buffer = args.buf })
 		u.map('n', '<leader>ca', vim.lsp.buf.code_action, 'LSP - [c]ode [a]ction', { buffer = args.buf })
-		u.map('n', '<leader>gq', vim.lsp.buf.format, 'LSP - format', { buffer = args.buf })
 
 		client.server_capabilities.semanticTokensProvider = nil
 	end
