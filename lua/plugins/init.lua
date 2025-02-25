@@ -1,9 +1,6 @@
 local u = require('local-util')
 
 return {
-	-- parse and adjust settings for formatting from .editorconfig file
-	{ 'editorconfig/editorconfig-vim', lazy = false },
-
 	-- colorschemes
 	--{ 'RRethy/nvim-base16', lazy = true },
 	{ 'tiagovla/tokyodark.nvim', lazy = true },
@@ -148,7 +145,23 @@ return {
 		ft = 'markdown',
 	},
 
-	{ 'neovim/nvim-lspconfig' },
+	{
+		'neovim/nvim-lspconfig',
+		config = function()
+			local lspconfig = require('lspconfig')
+
+			lspconfig.util.default_config = vim.tbl_extend(
+				"force",
+				lspconfig.util.default_config,
+				{
+					autostart = false,
+				}
+			)
+
+			lspconfig.guile_ls.setup{}
+			lspconfig.rust_analyzer.setup{}
+		end
+	},
 
 	-- installer and bridge for lsps and lspconfig
 	{ 'williamboman/mason.nvim', config = true },
