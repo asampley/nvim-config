@@ -158,8 +158,8 @@ return {
 				}
 			)
 
-			lspconfig.guile_ls.setup{}
 			lspconfig.rust_analyzer.setup{}
+			lspconfig.svelte.setup{}
 		end
 	},
 
