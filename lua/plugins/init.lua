@@ -154,12 +154,13 @@ return {
 				"force",
 				lspconfig.util.default_config,
 				{
-					autostart = false,
+					autostart = true,
 				}
 			)
 
 			lspconfig.rust_analyzer.setup{}
 			lspconfig.svelte.setup{}
+			lspconfig.nixd.setup{}
 		end
 	},
 
