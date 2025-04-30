@@ -3,6 +3,7 @@ local u = require('local-util')
 return {
 	-- colorschemes
 	--{ 'RRethy/nvim-base16', lazy = true },
+	{ 'chriskempson/base16-vim' },
 	{ 'tiagovla/tokyodark.nvim', lazy = true },
 	{ 'nyoom-engineering/oxocarbon.nvim', lazy = true },
 	{ 'dracula/vim', lazy = true },
