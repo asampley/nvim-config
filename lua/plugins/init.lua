@@ -97,31 +97,17 @@ return {
 	{
 		'neovim/nvim-lspconfig',
 		config = function()
-			local lspconfig = require('lspconfig')
+			local enable = {
+				'lua_ls',
+				'nixd',
+				'rust_analyzer',
+				'svelte',
+			}
 
-			lspconfig.util.default_config = vim.tbl_extend(
-				"force",
-				lspconfig.util.default_config,
-				{
-					autostart = true,
-				}
-			)
-
-			lspconfig.lua_ls.setup{}
-			lspconfig.rust_analyzer.setup{}
-			lspconfig.svelte.setup{}
-			lspconfig.nixd.setup{}
+			for _,v in ipairs(enable) do
+				vim.lsp.enable(v)
+			end
 		end
-	},
-
-	-- installer and bridge for lsps and lspconfig
-	{ 'williamboman/mason.nvim', config = true },
-	{
-		'williamboman/mason-lspconfig.nvim',
-		dependencies = {
-			'neovim/nvim-lspconfig',
-			'hrsh7th/cmp-nvim-lsp',
-		},
 	},
 
 	-- snippet engine
