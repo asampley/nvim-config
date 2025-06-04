@@ -2,76 +2,24 @@ local u = require('local-util')
 
 return {
 	-- colorschemes
-	--{ 'RRethy/nvim-base16', lazy = true },
-	{ 'chriskempson/base16-vim' },
-	{ 'tiagovla/tokyodark.nvim', lazy = true },
-	{ 'nyoom-engineering/oxocarbon.nvim', lazy = true },
-	{ 'dracula/vim', lazy = true },
 	{
-		'maxmx03/fluoromachine.nvim',
-		lazy = true,
-		opts = {
-			glow = false,
-			theme = 'fluoromachine',
-			--theme = 'retrowave',
-			--theme = 'delta',
-			overrides = function(c, color)
-				return {
-					DiagnosticUnderlineOk = { undercurl = true },
-					DiagnosticUnderlineHint = { undercurl = true },
-					DiagnosticUnderlineInfo = { undercurl = true },
-					DiagnosticUnderlineWarn = { undercurl = true },
-					DiagnosticUnderlineError = { undercurl = true },
-					DiagnosticUnnecessary = { undercurl = true },
-				}
-			end,
-		},
-	},
-	{
-		'rafamadriz/neon',
-		lazy = true,
+		'RRethy/base16-nvim',
+		cond = vim.fn.has('termguicolors'),
 		config = function()
-			vim.g.neon_style = 'dark'
-		end
-	},
-	{
-		'marko-cerovac/material.nvim',
-		lazy = true,
-		opts = {
-			high_visibility = { darker = true }
-		},
-		config = function(_, opts)
-			local material = require('material')
-
-			vim.g.material_style = 'deep ocean'
-
-			material.setup(opts)
+			-- match terminal colors
+			if vim.fn.has('termguicolors') then
+				vim.opt.termguicolors = true
+			end
 		end,
 	},
 	{
-		'tanvirtin/monokai.nvim',
-		lazy = true,
-		config = function(_, _)
-			local monokai = require('monokai')
-
-			-- half bright backgrounds
-			monokai.classic.base2 = '#1c1e21'
-			monokai.pro.base2 = '#1c1e21'
-			monokai.soda.base2 = '#1c1e21'
-			monokai.ristretto.base2 = '#161212'
-
-			monokai.setup { palette = monokai.classic }
-		end
-	},
-	{
-		'sainnhe/sonokai',
-		lazy = true,
-		opts = {
-			style = 'maia',
-		},
-		config = function(_, opts)
-			vim.g.sonokai_style = opts.style
-			vim.g.sonokai_better_performance = 1
+		'chriskempson/base16-vim',
+		cond = not vim.fn.has('termguicolors'),
+		config = function()
+			-- match terminal colors
+			if not vim.fn.has('termguicolors') then
+				vim.opt.termguicolors = false
+			end
 		end,
 	},
 
@@ -159,6 +107,7 @@ return {
 				}
 			)
 
+			lspconfig.lua_ls.setup{}
 			lspconfig.rust_analyzer.setup{}
 			lspconfig.svelte.setup{}
 			lspconfig.nixd.setup{}
@@ -173,18 +122,6 @@ return {
 			'neovim/nvim-lspconfig',
 			'hrsh7th/cmp-nvim-lsp',
 		},
-		config = function()
-			require('mason-lspconfig').setup()
-
-			require('mason-lspconfig').setup_handlers({
-				function(server_name)
-					require('lspconfig')[server_name].setup({
-						capabilities = require('cmp_nvim_lsp').default_capabilities(),
-						settings = require('local').lspconfig.settings[server_name],
-					})
-				end
-			})
-		end
 	},
 
 	-- snippet engine

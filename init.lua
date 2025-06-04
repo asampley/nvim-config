@@ -95,13 +95,7 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- match terminal colors
-if vim.fn.has('termguicolors') then
-	vim.opt.termguicolors = false
-end
-
 -- startup plugins
 require('lazy').setup(require('plugins'))
 
--- set colorscheme after plugins are loaded
 vim.cmd('colorscheme base16-default-dark')
