@@ -102,7 +102,33 @@ return {
 				'nixd',
 				'rust_analyzer',
 				'svelte',
+				'vue_ls',
+				'ts_ls',
+				'jdtls',
 			}
+
+			if os.execute("command -v vue-language-server") == 0 then
+				local stdout = io.popen("dirname $(command -v vue-language-server)")
+				local location = stdout:read() .. "/../lib/node_modules/@vue/language-server/"
+				stdout:close()
+
+				vim.lsp.config('ts_ls', {
+					init_options = {
+						plugins = {
+							{
+								name = "@vue/typescript-plugin",
+								location = location,
+								languages = { "vue" },
+							},
+						},
+					},
+					filetypes = {
+						"javascript",
+						"typescript",
+						"vue",
+					},
+				})
+			end
 
 			for _,v in ipairs(enable) do
 				vim.lsp.enable(v)
