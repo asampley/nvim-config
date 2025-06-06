@@ -69,8 +69,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
 		u.map('n', '<leader>td', vim.lsp.buf.type_definition, 'LSP - goto [t]ype [d]efinition', { buffer = args.buf })
 		u.map('n', '<leader>rn', vim.lsp.buf.rename, 'LSP - [r]e[n]ame', { buffer = args.buf })
 		u.map('n', '<leader>ca', vim.lsp.buf.code_action, 'LSP - [c]ode [a]ction', { buffer = args.buf })
-
-		client.server_capabilities.semanticTokensProvider = nil
 	end
 })
 
