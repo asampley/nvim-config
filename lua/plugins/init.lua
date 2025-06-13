@@ -1,28 +1,29 @@
 local u = require('local-util')
 
 return {
-	-- colorschemes
 	{
 		'RRethy/base16-nvim',
 		cond = vim.fn.has('termguicolors'),
 		config = function()
-			-- match terminal colors
-			if vim.fn.has('termguicolors') then
-				vim.opt.termguicolors = true
-			end
-		end,
-	},
-	{
-		'chriskempson/base16-vim',
-		cond = not vim.fn.has('termguicolors'),
-		config = function()
-			-- match terminal colors
-			if not vim.fn.has('termguicolors') then
-				vim.opt.termguicolors = false
-			end
-		end,
-	},
+			vim.opt.termguicolors = true
 
+			local tinted_file = io.open(os.getenv("HOME") .. "/.config/tinted-theming.list")
+
+			if tinted_file then
+				local tinted_theme = {}
+
+				for i = 0,15 do
+					tinted_theme["base" .. string.format("%02X", i)]
+						= "#" .. tinted_file:read("*line")
+				end
+
+				require('base16-colorscheme').setup(tinted_theme)
+				tinted_file:close()
+			else
+				require('base16-colorscheme').setup("default-dark")
+			end
+		end,
+	},
 	-- treesitter management
 	{
 		'nvim-treesitter/nvim-treesitter',
@@ -133,6 +134,8 @@ return {
 			for _,v in ipairs(enable) do
 				vim.lsp.enable(v)
 			end
+
+
 		end
 	},
 
