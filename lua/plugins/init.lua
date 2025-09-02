@@ -42,7 +42,7 @@ return {
 	-- fuzzy find files and more with telescope
 	{
 		'nvim-telescope/telescope.nvim',
-		tag = '0.1.2',
+		tag = '0.1.8',
 		dependecies = {
 			'nvim-lua/plenary.nvim',
 			'nvim-telescope/telescope-ui-select.nvim'
@@ -85,6 +85,13 @@ return {
 		end,
 	},
 
+	-- TODO learn DAP
+	--[[
+	{
+		'mfussenegger/nvim-dap',
+	},
+	]]
+
 	{ 'nvim-lua/plenary.nvim' },
 	{ 'nvim-telescope/telescope-ui-select.nvim' },
 
@@ -99,6 +106,7 @@ return {
 		'neovim/nvim-lspconfig',
 		config = function()
 			local enable = {
+				'basedpyright',
 				'lua_ls',
 				'nixd',
 				'rust_analyzer',
@@ -107,6 +115,17 @@ return {
 				'ts_ls',
 				'jdtls',
 			}
+
+			vim.lsp.config('basedpyright', {
+				settings = {
+					basedpyright = {
+						analysis = {
+							-- most python code isn't typed
+							typeCheckingMode = "basic",
+						},
+					},
+				},
+			})
 
 			if os.execute("command -v vue-language-server") == 0 then
 				local stdout = io.popen("dirname $(command -v vue-language-server)")
