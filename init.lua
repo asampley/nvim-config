@@ -98,3 +98,9 @@ vim.opt.termguicolors = false;
 
 -- startup plugins
 require('lazy').setup(require('plugins'))
+
+-- first nvim can have a pipe, subsequent you're on your own
+local serverpipe = vim.fn.stdpath("cache") .. "/server.pipe"
+if not vim.loop.fs_stat(serverpipe) then
+  vim.fn.serverstart(serverpipe)
+end

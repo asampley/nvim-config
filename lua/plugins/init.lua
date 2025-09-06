@@ -114,6 +114,7 @@ return {
 				'vue_ls',
 				'ts_ls',
 				'jdtls',
+				'gdscript',
 			}
 
 			vim.lsp.config('basedpyright', {
