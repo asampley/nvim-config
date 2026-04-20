@@ -85,12 +85,56 @@ return {
 		end,
 	},
 
-	-- TODO learn DAP
-	--[[
+	-- Dap
 	{
 		'mfussenegger/nvim-dap',
+		config = function()
+			local dap = require('dap')
+
+			dap.adapters.godot = {
+				type = 'server',
+				host = '127.0.0.1',
+				port = 6006,
+			}
+
+			dap.adapters.lldb = {
+				type = 'executable',
+				command = '/usr/bin/env',
+				args = { 'lldb-dap' },
+			}
+
+			dap.configurations.gdscript = {
+				{
+					name = 'Launch Godot GDScript Debug',
+					type = 'godot',
+					request = 'launch',
+					port = 6007,
+				},
+			}
+
+			dap.configurations.rust = {
+				{
+					name = 'Launch LLDB for Godot GDExtension',
+					type = 'lldb',
+					request = 'launch',
+					cwd = '${workspaceFolder}/godot',
+					program = '/usr/bin/env',
+					args = { 'godot', '-w' },
+				},
+			}
+
+			u.map('n', '<leader>dc', dap.continue, 'DAP - [c]ontinue')
+			u.map('n', '<leader>dC', function() dap.continue({new = true}) end, 'DAP - new')
+			u.map('n', '<leader>d@', dap.run_last, 'DAP - run last')
+			u.map('n', '<leader>dj', dap.step_over, 'DAP - step over')
+			u.map('n', '<leader>dl', dap.step_into, 'DAP - step into')
+			u.map('n', '<leader>dh', dap.step_out, 'DAP - step out')
+			u.map('n', '<leader>dk', dap.step_back, 'DAP - step back')
+			u.map('n', '<leader>dt', dap.terminate, 'DAP - [t]erminate')
+			u.map('n', '<leader>db', dap.toggle_breakpoint, 'DAP - toggle [b]reakpoint')
+			u.map('n', '<leader>dr', ':DapEval<CR>', 'DAP - [r]epl')
+		end,
 	},
-	]]
 
 	{ 'nvim-lua/plenary.nvim' },
 	{ 'nvim-telescope/telescope-ui-select.nvim' },
