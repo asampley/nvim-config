@@ -72,6 +72,15 @@ vim.api.nvim_create_autocmd('LspAttach', {
 	end
 })
 
+-- enable treesitter highlighting by default for buffers
+vim.api.nvim_create_autocmd('BufEnter', {
+	callback = function(args)
+		if next(vim.treesitter.query.get_files(vim.opt.filetype:get(), "highlights")) ~= nil then
+			vim.treesitter.start()
+		end
+	end
+})
+
 -- Set completeopt to have a better completion experience
 vim.opt.completeopt = { 'menuone', 'noinsert', 'noselect' }
 
@@ -98,6 +107,9 @@ vim.opt.termguicolors = false;
 
 -- startup plugins
 require('lazy').setup(require('plugins'))
+
+-- add directory to runtime path that can be managed by nix home-manager
+vim.opt.rtp:prepend(vim.fn.stdpath("data") .. "/home-manager")
 
 -- first nvim can have a pipe, subsequent you're on your own
 local serverpipe = vim.fn.stdpath("cache") .. "/server.pipe"

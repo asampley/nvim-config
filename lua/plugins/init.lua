@@ -24,20 +24,6 @@ return {
 			end
 		end,
 	},
-	-- treesitter management
-	{
-		'nvim-treesitter/nvim-treesitter',
-		build = function()
-			require('nvim-treesitter.install').update({ with_sync = true })()
-		end,
-		config = function(_, _)
-			require('nvim-treesitter.configs').setup {
-				highlight = {
-					enable = true,
-				},
-			}
-		end,
-	},
 
 	-- fuzzy find files and more with telescope
 	{

@@ -1,1 +1,5 @@
 .netrwhist
+
+# treesitter binaries and linked queries should be managed outside git
+/parser
+/queries
