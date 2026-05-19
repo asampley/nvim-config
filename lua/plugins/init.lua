@@ -91,10 +91,35 @@ return {
 		config = function()
 			local dap = require('dap')
 
+			-- take input, stash response for default
+			function input_stashed(prompt, callback)
+				local stash = initial
+				return function()
+					if stash ~= nil then
+						stash = vim.fn.input(prompt, stash)
+					else
+						stash = vim.fn.input(prompt)
+					end
+
+					if callback ~= nil then
+						return callback(stash)
+					else
+						return stash
+					end
+				end
+			end
+
+
 			dap.adapters.godot = {
 				type = 'server',
 				host = '127.0.0.1',
 				port = 6006,
+			}
+
+			dap.adapters.godot_existing = {
+				type = 'server',
+				host = '127.0.0.1',
+				port = 6007,
 			}
 
 			dap.adapters.lldb = {
@@ -108,24 +133,36 @@ return {
 					name = 'Launch Godot GDScript Debug',
 					type = 'godot',
 					request = 'launch',
-					port = 6007,
 				},
 			}
 
 			dap.configurations.rust = {
 				{
-					name = 'Launch LLDB for Godot GDExtension',
+					name = 'Launch LLDB',
 					type = 'lldb',
 					request = 'launch',
-					cwd = '${workspaceFolder}/godot',
 					program = '/usr/bin/env',
-					args = { 'godot', '-w' },
+					stopOnEntry = false,
+					args = input_stashed('Launch: ', require('dap.utils').splitstr),
 				},
 			}
 
+			-- Run last caching config from inputs
+			local last_config = nil
+			dap.listeners.after.event_initialized["store_config"] = function(session)
+				last_config = session.config
+			end
+			function run_last()
+				if last_config ~= nil then
+					dap.run(last_config)
+				else
+					dap.run_last()
+				end
+			end
+
 			u.map('n', '<leader>dc', dap.continue, 'DAP - [c]ontinue')
 			u.map('n', '<leader>dC', function() dap.continue({new = true}) end, 'DAP - new')
-			u.map('n', '<leader>d@', dap.run_last, 'DAP - run last')
+			u.map('n', '<leader>d@', run_last, 'DAP - run last')
 			u.map('n', '<leader>dj', dap.step_over, 'DAP - step over')
 			u.map('n', '<leader>dl', dap.step_into, 'DAP - step into')
 			u.map('n', '<leader>dh', dap.step_out, 'DAP - step out')
