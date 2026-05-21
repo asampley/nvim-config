@@ -7,6 +7,12 @@ return {
 		config = function()
 			vim.opt.termguicolors = true
 
+			local base16 = require('base16-colorscheme')
+
+			base16.with_config {
+				telescope = false,
+			}
+
 			local tinted_file = io.open(os.getenv("HOME") .. "/.config/tinted-theming.list")
 
 			if tinted_file then
@@ -17,10 +23,11 @@ return {
 						= "#" .. tinted_file:read("*line")
 				end
 
-				require('base16-colorscheme').setup(tinted_theme)
+				base16.setup(tinted_theme)
+
 				tinted_file:close()
 			else
-				require('base16-colorscheme').setup("default-dark")
+				base16.setup("default-dark")
 			end
 		end,
 	},
