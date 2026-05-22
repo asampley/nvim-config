@@ -105,8 +105,8 @@ vim.opt.rtp:prepend(lazypath)
 -- match terminal colors
 vim.opt.termguicolors = false;
 
--- give floating windows borders
-vim.opt.winborder = 'rounded';
+-- give floating windows borders in terminal
+vim.opt.winborder = 'double';
 
 -- startup plugins
 require('lazy').setup(require('plugins'))

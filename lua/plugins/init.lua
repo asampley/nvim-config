@@ -29,6 +29,15 @@ return {
 			else
 				base16.setup("default-dark")
 			end
+
+			vim.api.nvim_set_hl(0, "NormalFloat", {
+				bg = base16.colors.base01,
+				update = true,
+			})
+			vim.api.nvim_set_hl(0, "FloatBorder", {
+				bg = base16.colors.base01,
+				update = true,
+			})
 		end,
 	},
 
